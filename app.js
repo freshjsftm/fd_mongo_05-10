@@ -6,6 +6,10 @@ app.use(express.json());
 app.post('/tasks', TaskController.createTask);
 app.get('/tasks', TaskController.getAllTasks);
 
+//ЗАДАНИЕ:
+app.patch('/tasks/:taskId', TaskController.updateTask);
+//app.delete('/tasks/:taskId', TaskController.deleteTask);
+
 app.use((err, req, res, next)=>{
   const status = err.status || 500;
   res.status(status).send(err.message || 'Server errors')

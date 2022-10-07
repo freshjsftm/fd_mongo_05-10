@@ -18,3 +18,13 @@ module.exports.getAllTasks = async (req, res, next) => {
     next(error)
   }
 }
+
+module.exports.updateTask = async (req, res, next)=>{
+  try {
+    const {body, params:{taskId}} = req;
+    const updatesTask = await Task.findByIdAndUpdate(taskId, body, {new:true, runValidators:true})
+    res.status(200).send({data:updatesTask})
+  } catch (error) {
+    next(error)
+  }
+}
