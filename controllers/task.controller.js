@@ -28,3 +28,13 @@ module.exports.updateTask = async (req, res, next)=>{
     next(error)
   }
 }
+
+module.exports.deleteTask = async (req, res, next)=>{
+  try {
+    const {params:{taskId}} = req;
+    const deletedTask = await Task.findByIdAndRemove(taskId)
+    res.status(200).send({data:deletedTask})
+  } catch (error) {
+    next(error)
+  }
+}

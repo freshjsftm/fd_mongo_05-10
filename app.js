@@ -8,7 +8,7 @@ app.get('/tasks', TaskController.getAllTasks);
 
 //ЗАДАНИЕ:
 app.patch('/tasks/:taskId', TaskController.updateTask);
-//app.delete('/tasks/:taskId', TaskController.deleteTask);
+app.delete('/tasks/:taskId', TaskController.deleteTask);
 
 app.use((err, req, res, next)=>{
   const status = err.status || 500;
