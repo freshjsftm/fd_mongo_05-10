@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const {emailSchema,contentSchema,nameSchema} = require('../utils/validate')
 const {Schema} = mongoose;
 
 const taskSchema = new Schema({
@@ -6,9 +7,7 @@ const taskSchema = new Schema({
     type: String,
     required: [true, 'Content required'],
     validate: {
-      validator: function(v) {
-        return /[\sa-z0-9]+/i.test(v);
-      },
+      validator: (v) => contentSchema.isValid(v),
       message: props => `${props.value} is not a valid content!`
     },
   },
@@ -24,13 +23,18 @@ const taskSchema = new Schema({
     name:{
       type: String,
       validate: {
-        validator: function(v) {
-          return /^[A-Z][a-z]{2,15}$/.test(v);
-        },
+        validator: (v) => nameSchema.isValid(v),
         message: props => `${props.value} is not a valid name author!`
       },
     },
-    age:{type: Number}
+    age:{type: Number},
+    email:{
+      type: String,
+      validate:{
+        validator: (v) => emailSchema.isValid(v),
+        message: props => `${props.value} is not a valid email!`
+      }
+    }
   }
 },{
   versionKey: false,
