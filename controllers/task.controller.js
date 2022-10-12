@@ -1,5 +1,22 @@
 const createHTTPError = require('http-errors')
 const Task = require('../models/Task')
+const Comment = require('../models/Comment')
+
+
+module.exports.getTaskById = async (req, res, next)=>{
+  try {
+    const {params:{taskId}} = req;
+    // const task = await Task.findById(taskId)
+    // if(!task){
+    //   return next(createHTTPError(404, 'Task not found.'))
+    // }
+    // res.status(200).send({data:task})
+    const task = await Comment.populate( await Comment.find(), { path: 'task', select: ['content', 'author']});
+    res.status(200).send({data:task})
+  } catch (error) {
+    next(error)
+  }
+}
 
 module.exports.createTask =  async (req, res, next)=>{
   try {
@@ -41,19 +58,6 @@ module.exports.deleteTask = async (req, res, next)=>{
       return next(createHTTPError(400, 'Bad request.'))
     }
     res.status(200).send({data:deletedTask})
-  } catch (error) {
-    next(error)
-  }
-}
-
-module.exports.getTaskById = async (req, res, next)=>{
-  try {
-    const {params:{taskId}} = req;
-    const task = await Task.findById(taskId)
-    if(!task){
-      return next(createHTTPError(404, 'Task not found.'))
-    }
-    res.status(200).send({data:task})
   } catch (error) {
     next(error)
   }
