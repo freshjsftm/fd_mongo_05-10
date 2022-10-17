@@ -11,7 +11,7 @@ module.exports.getTaskById = async (req, res, next)=>{
     //   return next(createHTTPError(404, 'Task not found.'))
     // }
     // res.status(200).send({data:task})
-    const task = await Comment.populate( await Comment.find(), { path: 'task', select: ['content', 'author']});
+    const task = await Comment.populate( await Comment.find({task:taskId}), { path: 'task', select: ['content', 'author']});
     res.status(200).send({data:task})
   } catch (error) {
     next(error)
