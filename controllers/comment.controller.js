@@ -12,12 +12,14 @@ module.exports.createComment = async(req, res, next)=>{
 
 module.exports.getAllComments = async(req, res, next) => {
   try {
-    Comment.find().populate('task').exec((err, comments)=>{
-      if(err){
-        return next(err)
-      }
-      res.status(200).send({data: comments})
-    })
+    const comments = await Comment.find()
+    res.status(200).send({data: comments})
+    // Comment.find().populate('task').exec((err, comments)=>{
+    //   if(err){
+    //     return next(err)
+    //   }
+    //   res.status(200).send({data: comments})
+    // })
   } catch (error) {
     next(error)
   }
